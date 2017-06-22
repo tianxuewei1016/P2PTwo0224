@@ -1,25 +1,20 @@
 package com.p2ptwo0224.fragment;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.os.SystemClock;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.p2ptwo0224.R;
+import com.p2ptwo0224.base.BaseFragment;
 import com.p2ptwo0224.bean.HomeBean;
 import com.p2ptwo0224.common.AppNetConfig;
 import com.p2ptwo0224.utils.LoadNet;
 import com.p2ptwo0224.utils.LoadNetHttp;
 import com.p2ptwo0224.utils.ThreadPool;
-import com.p2ptwo0224.utils.UIUtils;
 import com.p2ptwo0224.view.MyProgress;
 import com.squareup.picasso.Picasso;
 import com.youth.banner.Banner;
@@ -37,7 +32,7 @@ import butterknife.ButterKnife;
  * 作用：
  */
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends BaseFragment {
     @Bind(R.id.base_title)
     TextView baseTitle;
     @Bind(R.id.base_back)
@@ -53,28 +48,20 @@ public class HomeFragment extends Fragment {
     @Bind(R.id.home_progress)
     MyProgress homeProgress;
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = UIUtils.inflate(R.layout.fragment_home);
-        ButterKnife.bind(this, view);
-        return view;
-    }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        initData();
-        initListener();
+    protected void initTitle() {
+
     }
 
-    private void initListener() {
+
+    public void initListener() {
         baseTitle.setText("首页");
         baseBack.setVisibility(View.INVISIBLE);
         baseSetting.setVisibility(View.INVISIBLE);
     }
 
-    private void initData() {
+    public void initData() {
         /*
         * 二次封装
         * 为什么要二次封装
@@ -102,13 +89,18 @@ public class HomeFragment extends Fragment {
 
     }
 
+    @Override
+    public int getLayoutId() {
+        return R.layout.fragment_home;
+    }
+
     private void initProgress(final HomeBean.ProInfoBean proInfo) {
         ThreadPool.getInstance().getGlobalThread().execute(new Runnable() {
             @Override
             public void run() {
                 int progress = Integer.parseInt(proInfo.getProgress());
-                for (int i=0;i<progress;i++){
-                    SystemClock.sleep(120);
+                for (int i = 0; i < progress; i++) {
+                    SystemClock.sleep(20);
                     homeProgress.setProgress(i);
                 }
             }
