@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.p2ptwo0224.view.LoadingPager;
+
 import butterknife.ButterKnife;
 
 /**
@@ -18,53 +20,62 @@ import butterknife.ButterKnife;
 
 public abstract class BaseFragment extends Fragment {
 
+    private LoadingPager loadingPager;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        if (getLayoutId() == 0) {
-            TextView view = new TextView(getActivity());
-            view.setText("没有设置布局呢");
-            return view;
+        if (getLayoutid() == 0) {
+            TextView textView = new TextView(getActivity());
+            textView.setText("没有加载布局...");
         }
+        //View view = View.inflate(getActivity(),getLayoutid(),null);
+        loadingPager = new LoadingPager(getActivity()) {
+            @Override
+            protected void onSuccess(ResultState resultState, View sucessView) {
+                ButterKnife.bind(BaseFragment.this, sucessView);
+                initData(resultState.getJson());
+            }
 
-        View view = View.inflate(getActivity(), getLayoutId(), null);
-        ButterKnife.bind(this, view);
+            @Override
+            protected String getUrl() {
+                return getChildUrl();
+            }
 
-        initView();
-        initTitle();
-        initData();
-        initListener();
+            @Override
+            public int getViewId() {
+                return getLayoutid();
+            }
 
-        return view;
+        };
+
+        return loadingPager;
     }
+
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        //初始化数据
+        //initData();
+        //初始化监听
+        //initListener();
+        loadingPager.loadData();
+    }
+
+    protected abstract void initListener();
+
+    protected abstract void initData(String json);
+
+
+    public abstract int getLayoutid();
+
+    //每一个fragment返回的地址
+    public abstract String getChildUrl();
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
     }
-
-    protected abstract void initTitle();
-
-    /*
-    * 重写
-    * */
-    private void initListener() {
-
-    }
-
-    protected abstract void initData();
-
-    /*
-    * 可以重写
-    *
-    * */
-    private void initView() {
-
-    }
-
-    public abstract int getLayoutId();
 }
-

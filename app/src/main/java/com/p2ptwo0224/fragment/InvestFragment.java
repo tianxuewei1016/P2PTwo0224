@@ -10,19 +10,25 @@ import com.p2ptwo0224.base.BaseFragment;
 
 public class InvestFragment extends BaseFragment{
 
+
     @Override
-    protected void initTitle() {
+    protected void initListener() {
 
     }
 
     @Override
-    protected void initData() {
+    protected void initData(String json) {
 
     }
 
     @Override
-    public int getLayoutId() {
+    public int getLayoutid() {
         return 0;
+    }
+
+    @Override
+    public String getChildUrl() {
+        return null;
     }
 }
 

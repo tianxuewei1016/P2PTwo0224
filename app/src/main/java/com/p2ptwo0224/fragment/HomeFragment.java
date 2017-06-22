@@ -2,7 +2,6 @@ package com.p2ptwo0224.fragment;
 
 import android.content.Context;
 import android.os.SystemClock;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,8 +11,6 @@ import com.p2ptwo0224.R;
 import com.p2ptwo0224.base.BaseFragment;
 import com.p2ptwo0224.bean.HomeBean;
 import com.p2ptwo0224.common.AppNetConfig;
-import com.p2ptwo0224.utils.LoadNet;
-import com.p2ptwo0224.utils.LoadNetHttp;
 import com.p2ptwo0224.utils.ThreadPool;
 import com.p2ptwo0224.view.MyProgress;
 import com.squareup.picasso.Picasso;
@@ -48,12 +45,15 @@ public class HomeFragment extends BaseFragment {
     @Bind(R.id.home_progress)
     MyProgress homeProgress;
 
-
     @Override
-    protected void initTitle() {
-
+    public int getLayoutid() {
+        return R.layout.fragment_home;
     }
 
+    @Override
+    public String getChildUrl() {
+        return AppNetConfig.INDEX;
+    }
 
     public void initListener() {
         baseTitle.setText("首页");
@@ -61,37 +61,44 @@ public class HomeFragment extends BaseFragment {
         baseSetting.setVisibility(View.INVISIBLE);
     }
 
-    public void initData() {
-        /*
-        * 二次封装
-        * 为什么要二次封装
-        *
-        * 第一  调用的方便
-        * 第二  修改和维护方便
-        * */
-        LoadNet.getDataPost(AppNetConfig.INDEX, new LoadNetHttp() {
-            @Override
-            public void success(String content) {
-                Log.i("http", "success: " + "context");
-                HomeBean homeBean = JSON.parseObject(content, HomeBean.class);
-                tvHomeYearrate.setText(homeBean.getProInfo().getYearRate() + "%");
-                tvHomeProduct.setText(homeBean.getProInfo().getName());
-                //注意：展示UI一定要判断是不是主线程
-                initProgress(homeBean.getProInfo());
-                initBanner(homeBean);
-            }
 
-            @Override
-            public void failure(String error) {
-                Log.i("http", "failure: " + error);
-            }
-        });
+//    public void initData() {
+//        /*
+//        * 二次封装
+//        * 为什么要二次封装
+//        *
+//        * 第一  调用的方便
+//        * 第二  修改和维护方便
+//        * */
+//        LoadNet.getDataPost(AppNetConfig.INDEX, new LoadNetHttp() {
+//            @Override
+//            public void success(String content) {
+//                Log.i("http", "success: " + "context");
+//                HomeBean homeBean = JSON.parseObject(content, HomeBean.class);
+//                tvHomeYearrate.setText(homeBean.getProInfo().getYearRate() + "%");
+//                tvHomeProduct.setText(homeBean.getProInfo().getName());
+//                //注意：展示UI一定要判断是不是主线程
+//                initProgress(homeBean.getProInfo());
+//                initBanner(homeBean);
+//            }
+//
+//            @Override
+//            public void failure(String error) {
+//                Log.i("http", "failure: " + error);
+//            }
+//        });
+//    }
 
-    }
 
     @Override
-    public int getLayoutId() {
-        return R.layout.fragment_home;
+    public void initData(String json) {
+        HomeBean homeBean = JSON.parseObject(json, HomeBean.class);
+        //Log.i("http", "success: "+homeBean.getImageArr().size());
+        tvHomeYearrate.setText(homeBean.getProInfo().getYearRate() + "%");
+        tvHomeProduct.setText(homeBean.getProInfo().getName());
+        //注意：展示UI一定要判断是不是主线程
+        initProgress(homeBean.getProInfo());
+        initBanner(homeBean);
     }
 
     private void initProgress(final HomeBean.ProInfoBean proInfo) {
@@ -106,6 +113,7 @@ public class HomeFragment extends BaseFragment {
             }
         });
     }
+
 
     private void initBanner(HomeBean homeBean) {
         //设置图片加载器
