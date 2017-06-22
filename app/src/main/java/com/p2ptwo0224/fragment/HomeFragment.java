@@ -2,6 +2,7 @@ package com.p2ptwo0224.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -17,7 +18,9 @@ import com.p2ptwo0224.bean.HomeBean;
 import com.p2ptwo0224.common.AppNetConfig;
 import com.p2ptwo0224.utils.LoadNet;
 import com.p2ptwo0224.utils.LoadNetHttp;
+import com.p2ptwo0224.utils.ThreadPool;
 import com.p2ptwo0224.utils.UIUtils;
+import com.p2ptwo0224.view.MyProgress;
 import com.squareup.picasso.Picasso;
 import com.youth.banner.Banner;
 import com.youth.banner.loader.ImageLoader;
@@ -47,6 +50,8 @@ public class HomeFragment extends Fragment {
     TextView tvHomeProduct;
     @Bind(R.id.tv_home_yearrate)
     TextView tvHomeYearrate;
+    @Bind(R.id.home_progress)
+    MyProgress homeProgress;
 
     @Nullable
     @Override
@@ -82,10 +87,10 @@ public class HomeFragment extends Fragment {
             public void success(String content) {
                 Log.i("http", "success: " + "context");
                 HomeBean homeBean = JSON.parseObject(content, HomeBean.class);
-
-                tvHomeYearrate.setText(Double.parseDouble(homeBean.getProInfo().getYearRate()) / 100 + "%");
+                tvHomeYearrate.setText(homeBean.getProInfo().getYearRate() + "%");
                 tvHomeProduct.setText(homeBean.getProInfo().getName());
                 //注意：展示UI一定要判断是不是主线程
+                initProgress(homeBean.getProInfo());
                 initBanner(homeBean);
             }
 
@@ -95,6 +100,19 @@ public class HomeFragment extends Fragment {
             }
         });
 
+    }
+
+    private void initProgress(final HomeBean.ProInfoBean proInfo) {
+        ThreadPool.getInstance().getGlobalThread().execute(new Runnable() {
+            @Override
+            public void run() {
+                int progress = Integer.parseInt(proInfo.getProgress());
+                for (int i=0;i<progress;i++){
+                    SystemClock.sleep(120);
+                    homeProgress.setProgress(i);
+                }
+            }
+        });
     }
 
     private void initBanner(HomeBean homeBean) {

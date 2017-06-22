@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:atguigu="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -21,24 +22,24 @@
                 android:layout_height="150dp">
 
                 <com.youth.banner.Banner
-                android:id="@+id/banner"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                    android:id="@+id/banner"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
 
                 <!--<android.support.v4.view.ViewPager
-            android:id="@+id/vp_home"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+                    android:id="@+id/vp_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-        </android.support.v4.view.ViewPager>
+                </android.support.v4.view.ViewPager>
 
-        <com.viewpagerindicator.CirclePageIndicator
-            android:id="@+id/cp_home_indicator"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|bottom"
-            android:layout_marginBottom="5dp"
-            />-->
+                <com.viewpagerindicator.CirclePageIndicator
+                    android:id="@+id/cp_home_indicator"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal|bottom"
+                    android:layout_marginBottom="5dp"
+                    />-->
 
             </FrameLayout>
 
@@ -93,7 +94,9 @@
                     android:text="高额收益"
                     android:textColor="@color/home_back_unselected" />
 
+
             </LinearLayout>
+
 
             <!--<com.atguigu.p2pinvest0828.ui.RoundProgress-->
             <!--android:id="@+id/roundPro_home"-->
@@ -108,12 +111,11 @@
             <!--atguigu:max="100"-->
             <!--atguigu:progress="70"-->
             <!--/>-->
-            <!--<com.p2pinvest002.ui.MyProgressBar
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_marginTop="10dp">
-
-        </com.p2pinvest002.ui.MyProgressBar>-->
+            <com.p2ptwo0224.view.MyProgress
+                android:id="@+id/home_progress"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                atguigu:sweepArc="160"></com.p2ptwo0224.view.MyProgress>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -125,7 +127,9 @@
                     android:layout_height="wrap_content"
                     android:text="预期年利率："
                     android:textColor="@color/product_detail_common"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+
+                    />
 
                 <TextView
                     android:id="@+id/tv_home_yearrate"
@@ -133,9 +137,12 @@
                     android:layout_height="wrap_content"
                     android:text="10% + 2%"
                     android:textColor="@color/product_detail_common"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+
+                    />
 
             </LinearLayout>
+
 
             <Button
                 android:layout_width="match_parent"
@@ -148,6 +155,7 @@
                 android:textColor="@color/white"
                 android:textSize="30sp" />
 
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -155,6 +163,10 @@
                 android:drawableLeft="@drawable/guarantee_icon"
                 android:text="风险保障金由硅谷银行监管"
                 android:textColor="@color/home_back_unselected" />
+
         </LinearLayout>
+
+
     </ScrollView>
+
 </LinearLayout>
