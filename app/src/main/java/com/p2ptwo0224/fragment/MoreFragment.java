@@ -1,5 +1,6 @@
 package com.p2ptwo0224.fragment;
 
+import com.p2ptwo0224.R;
 import com.p2ptwo0224.base.BaseFragment;
 
 /**
@@ -23,7 +24,7 @@ public class MoreFragment extends BaseFragment{
 
     @Override
     public int getLayoutid() {
-        return 0;
+        return R.layout.fragment_invest_all;
     }
 
     @Override

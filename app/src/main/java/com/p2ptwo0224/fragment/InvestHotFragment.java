@@ -4,14 +4,12 @@ import com.p2ptwo0224.R;
 import com.p2ptwo0224.base.BaseFragment;
 
 /**
- * 作者：田学伟 on 2017/6/20 19:01
+ * 作者：田学伟 on 2017/6/22 18:16
  * QQ：93226539
  * 作用：
  */
 
-public class PropertyFragment extends BaseFragment{
-
-
+public class InvestHotFragment extends BaseFragment{
     @Override
     protected void initListener() {
 
@@ -32,4 +30,3 @@ public class PropertyFragment extends BaseFragment{
         return null;
     }
 }
-

@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.p2ptwo0224.view.LoadingPager;
 
@@ -25,10 +24,7 @@ public abstract class BaseFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if (getLayoutid() == 0) {
-            TextView textView = new TextView(getActivity());
-            textView.setText("没有加载布局...");
-        }
+
         //View view = View.inflate(getActivity(),getLayoutid(),null);
         loadingPager = new LoadingPager(getActivity()) {
             @Override
