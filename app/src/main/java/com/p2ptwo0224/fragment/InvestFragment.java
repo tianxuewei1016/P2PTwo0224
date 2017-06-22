@@ -1,5 +1,6 @@
 package com.p2ptwo0224.fragment;
 
+import android.graphics.Color;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
@@ -30,10 +31,75 @@ public class InvestFragment extends BaseFragment {
     ImageView baseSetting;
     @Bind(R.id.invest_vp)
     ViewPager investVp;
+    @Bind(R.id.tv_invest_all)
+    TextView tvInvestAll;
+    @Bind(R.id.tv_invest_recommend)
+    TextView tvInvestRecommend;
+    @Bind(R.id.tv_invest_hot)
+    TextView tvInvestHot;
 
     @Override
     protected void initListener() {
+        investVp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                //偏移理
+            }
 
+            @Override
+            public void onPageSelected(int position) {
+                selectText(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+        tvInvestAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                investVp.setCurrentItem(0);
+            }
+        });
+        tvInvestHot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                investVp.setCurrentItem(2);
+            }
+        });
+        tvInvestRecommend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                investVp.setCurrentItem(1);
+            }
+        });
+    }
+
+    private void selectText(int id) {
+        //把所有的背景色还原成默认值
+        hiddenTextViewState();
+        switch (id) {
+            case 0:
+                //改变当前的背景色
+                tvInvestAll.setBackgroundColor(Color.BLUE);
+                break;
+            case 1:
+                tvInvestRecommend.setBackgroundColor(Color.BLUE);
+                break;
+            case 2:
+                tvInvestHot.setBackgroundColor(Color.BLUE);
+                break;
+        }
+    }
+
+    /**
+     * 回复默认状态
+     */
+    private void hiddenTextViewState() {
+        tvInvestRecommend.setBackgroundColor(Color.WHITE);
+        tvInvestHot.setBackgroundColor(Color.WHITE);
+        tvInvestAll.setBackgroundColor(Color.WHITE);
     }
 
     @Override
@@ -44,6 +110,12 @@ public class InvestFragment extends BaseFragment {
         initFragment();
         //初始化viewPager
         initViewPager();
+        //设置默认选中的tab
+        initTab();
+    }
+
+    private void initTab() {
+        selectText(0);
     }
 
     private void initViewPager() {
